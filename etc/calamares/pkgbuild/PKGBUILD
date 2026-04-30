@@ -53,7 +53,7 @@ backup=('usr/share/calamares/modules/bootloader.conf'
         'usr/share/calamares/modules/unpackfs.conf')
 
 source=("calamares::git+https://codeberg.org/erikdubois/calamares"
-        "cal-kiro.desktop"
+        "cal-sst.desktop"
         "calamares_polkit"
 	"calamares-wrapper")
 sha256sums=('SKIP'
@@ -114,8 +114,8 @@ package() {
 	cd "$srcdir/$_pkgname/build"
 	DESTDIR="$pkgdir" cmake --install .
 
-	install -Dm644 "$srcdir/cal-kiro.desktop" "$pkgdir/usr/share/applications/cal-kiro.desktop"
-	install -Dm644 "$srcdir/cal-kiro.desktop" "$pkgdir/home/liveuser/Desktop/cal-kiro.desktop"
+	install -Dm644 "$srcdir/cal-sst.desktop" "$pkgdir/usr/share/applications/cal-sst.desktop"
+	install -Dm644 "$srcdir/cal-sst.desktop" "$pkgdir/home/liveuser/Desktop/cal-sst.desktop"
 
 	install -Dm644 "$srcdir/calamares-wrapper" "$pkgdir/usr/local/bin/calamares-wrapper"
 	chmod +x "$pkgdir/usr/local/bin/calamares-wrapper"
