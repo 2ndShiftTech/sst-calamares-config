@@ -1,20 +1,14 @@
 [Desktop Entry]
 Type=Application
 Version=1.0
-
 Name=Install System
 GenericName=System Installer
 Comment=Install the system with Calamares
-
 Exec=/usr/local/bin/calamares-wrapper
-TryExec=/usr/bin/calamares
-
+TryExec=/usr/local/bin/calamares-wrapper
 Icon=calamares
 Terminal=false
 StartupNotify=true
-
-Categories=System;Settings;Utility;
-Keywords=calamares;installer;system;
-
+Categories=System;Settings;
+Keywords=calamares;installer;install;system;
 X-AppStream-Ignore=true
-

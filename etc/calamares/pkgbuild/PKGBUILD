@@ -57,9 +57,9 @@ source=("calamares::git+https://codeberg.org/erikdubois/calamares"
         "calamares_polkit"
 	"calamares-wrapper")
 sha256sums=('SKIP'
-            '31a07d76d5c8ffee0e88bf41119c875fafb2e0bcefdae945e748e3f9e6803d6d'
-            '966c5f0834039dc6a7529e75f70417ba2510b1e643ffb49fd25855ce9dc244b4'
-            'e4c9b9601020f2362311b9776de1aa363f6ee5d1d78a4b171ba2630644819f5b')
+            '0a34e5e5c2853fe1131e60b4d156ee9f1cdbe017b593c207e8e69f24b14fc317'
+            'e50dc9843e87c239290c3b33e878fdf66b654bb69d12e8e4adafb574b0b58113'
+            '4e1f9aacb8fb571342bd6aa02146768b7c83493b2f9d1a3eac2d952d8cfd650e')
 
 prepare() {
 	cp -rv ../modules/* "$srcdir/$_pkgname/src/modules/"
