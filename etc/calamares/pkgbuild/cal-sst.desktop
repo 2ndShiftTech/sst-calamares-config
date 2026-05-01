@@ -1,18 +1,28 @@
 [Desktop Entry]
 Type=Application
 Version=1.0
-Name=Install ArcoLinux
-Comment=Installer for ArcoLinux
+
+Name=Install System
 GenericName=System Installer
-Keywords=calamares;system;installer;
-TryExec=/usr/bin/calamares_polkit %f -d -style breeze
+Comment=Install the system with Calamares
+
 Exec=/usr/local/bin/calamares-wrapper
+TryExec=/usr/bin/calamares
+
 Icon=calamares
 Terminal=false
-Type=Application
 StartupNotify=true
-Categories=GTK;Settings;Security;X-GNOME-Settings-Panel;X-GNOME-SystemSettings;X-Unity-Settings-Panel;X-XFCE-SettingsDialog;X-XFCE-SystemSettings;Utility;System;Filesystem;GNOME;Qt;KDE;
+
+Categories=System;Settings;Utility;
+Keywords=calamares;installer;system;
+
 X-AppStream-Ignore=true
+
+
+
+
+
+
 
 Name[ar]=تثبيت النظام 
 Icon[ar]=كالامارس
