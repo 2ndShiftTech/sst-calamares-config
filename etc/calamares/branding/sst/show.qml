@@ -47,7 +47,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background5
+            id: background2
             source: "02cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -61,7 +61,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background6
+            id: background3
             source: "03cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -75,7 +75,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background7
+            id: background4
             source: "04cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -89,7 +89,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background8
+            id: background5
             source: "05cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -103,7 +103,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background9
+            id: background6
             source: "06cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -117,7 +117,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background10
+            id: background7
             source: "07cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -131,7 +131,7 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background11
+            id: background8
             source: "08cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
@@ -145,8 +145,149 @@ Presentation
         anchors.fill: parent
         anchors.verticalCenterOffset: 0
         Image {
-            id: background12
+            id: background9
             source: "09cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background10
+            source: "10cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background11
+            source: "11cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background12
+            source: "12cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background13
+            source: "13cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background14
+            source: "14cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background15
+            source: "15cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background16
+            source: "16cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background17
+            source: "17cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background18
+            source: "18cal.png"
+            width: parent.width; height: parent.height
+            verticalAlignment: Image.AlignTop
+            fillMode: Image.PreserveAspectFit
+            anchors.fill: parent
+        }
+
+    }
+
+    Slide {
+        anchors.fill: parent
+        anchors.verticalCenterOffset: 0
+        Image {
+            id: background19
+            source: "19cal.png"
             width: parent.width; height: parent.height
             verticalAlignment: Image.AlignTop
             fillMode: Image.PreserveAspectFit
