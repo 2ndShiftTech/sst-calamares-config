@@ -90,6 +90,154 @@ def wait_for_pacman_lock(target_root, timeout=30):
         time.sleep(5)
         waited += 5
 
+
+def setup_oem_firstboot(target_root):
+    """
+    Configure systemd-firstboot to run on first boot.
+    Deletes preset system files so the end user is prompted to configure them.
+    Also drops a post-firstboot script to create a regular user account.
+    """
+    libcalamares.utils.debug("Configuring OEM firstboot via systemd-firstboot")
+
+    # ── 1. Remove files that would prevent systemd-firstboot from prompting ──
+    oem_files_to_remove = [
+        "etc/machine-id",
+        "etc/localtime",
+        "etc/hostname",
+        "etc/locale.conf",
+    ]
+    for rel_path in oem_files_to_remove:
+        full_path = os.path.join(target_root, rel_path)
+        if os.path.exists(full_path):
+            remove_path(full_path)
+            libcalamares.utils.debug(f"Removed for firstboot: {rel_path}")
+
+    # ── 2. Drop the systemd-firstboot drop-in to enable --prompt mode ──
+    dropin_dir = os.path.join(
+        target_root, "etc/systemd/system/systemd-firstboot.service.d"
+    )
+    os.makedirs(dropin_dir, exist_ok=True)
+
+    dropin_content = """\
+[Service]
+ExecStart=
+ExecStart=/usr/bin/systemd-firstboot --prompt
+
+[Install]
+WantedBy=sysinit.target
+"""
+    dropin_path = os.path.join(dropin_dir, "install.conf")
+    with open(dropin_path, "w") as f:
+        f.write(dropin_content)
+    libcalamares.utils.debug("Written systemd-firstboot drop-in")
+
+    # ── 3. Enable the service so it actually runs on first boot ──
+    try:
+        subprocess.run(
+            ["chroot", target_root, "systemctl", "enable", "systemd-firstboot"],
+            check=True
+        )
+        libcalamares.utils.debug("Enabled systemd-firstboot service")
+    except subprocess.CalledProcessError as e:
+        libcalamares.utils.warning(f"Failed to enable systemd-firstboot: {e}")
+
+    # ── 4. Drop a user-creation script that runs once after firstboot ──
+    # systemd-firstboot does not create regular users, only handles system
+    # settings (locale, timezone, hostname, root password, machine-id).
+    # This script creates a sudoer user account on first login.
+    user_setup_script = """\
+#!/bin/bash
+# SST OEM user setup — runs once on first boot after systemd-firstboot
+# Creates a regular user account and adds them to the wheel group
+
+echo ""
+echo "============================================"
+echo "  Welcome to your new system!"
+echo "  Let's create your user account."
+echo "============================================"
+echo ""
+
+while true; do
+    read -rp "Enter your username: " USERNAME
+    if [[ "$USERNAME" =~ ^[a-z_][a-z0-9_-]*$ ]]; then
+        break
+    else
+        echo "Invalid username. Use lowercase letters, numbers, hyphens, underscores."
+    fi
+done
+
+read -rp "Enter your full name (optional): " FULLNAME
+
+while true; do
+    read -rsp "Enter password: " PASSWORD
+    echo
+    read -rsp "Confirm password: " PASSWORD2
+    echo
+    if [ "$PASSWORD" = "$PASSWORD2" ]; then
+        break
+    else
+        echo "Passwords do not match. Try again."
+    fi
+done
+
+useradd -m -G wheel,audio,video,storage,network,optical,scanner,rfkill,power -s /bin/bash -c "$FULLNAME" "$USERNAME"
+echo "$USERNAME:$PASSWORD" | chpasswd
+
+echo ""
+echo "User '$USERNAME' created successfully."
+echo "You can now log in with your new account."
+echo ""
+
+# Disable this service so it never runs again
+systemctl disable sst-user-setup.service
+systemctl stop sst-user-setup.service
+"""
+
+    script_path = os.path.join(target_root, "usr/local/bin/sst-user-setup")
+    with open(script_path, "w") as f:
+        f.write(user_setup_script)
+    os.chmod(script_path, 0o755)
+    libcalamares.utils.debug("Written sst-user-setup script")
+
+    # ── 5. Create a systemd service to run the user setup script on first boot ──
+    user_service_content = """\
+[Unit]
+Description=SST OEM First Boot User Setup
+After=systemd-firstboot.service
+Requires=systemd-firstboot.service
+ConditionPathExists=/usr/local/bin/sst-user-setup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sst-user-setup
+StandardInput=tty
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+"""
+
+    service_dir = os.path.join(target_root, "etc/systemd/system")
+    os.makedirs(service_dir, exist_ok=True)
+    service_path = os.path.join(service_dir, "sst-user-setup.service")
+    with open(service_path, "w") as f:
+        f.write(user_service_content)
+    libcalamares.utils.debug("Written sst-user-setup.service")
+
+    # ── 6. Enable the user setup service ──
+    try:
+        subprocess.run(
+            ["chroot", target_root, "systemctl", "enable", "sst-user-setup.service"],
+            check=True
+        )
+        libcalamares.utils.debug("Enabled sst-user-setup.service")
+    except subprocess.CalledProcessError as e:
+        libcalamares.utils.warning(f"Failed to enable sst-user-setup.service: {e}")
+
+
 def run():
     """Execute final system configuration and cleanup."""
     libcalamares.utils.debug("##############################################")
@@ -105,7 +253,8 @@ def run():
     libcalamares.utils.debug("  6. Configure Bluetooth and PulseAudio")
     libcalamares.utils.debug("  7. Check bootloader configuration (remove GRUB if systemd-boot detected)")
     libcalamares.utils.debug("  8. Detect virtualization and remove unnecessary VM packages")
-    libcalamares.utils.debug("  9. Remove installer package (kiro-calamares-config)\n")
+    libcalamares.utils.debug("  9. Remove installer package (kiro-calamares-config)")
+    libcalamares.utils.debug(" 10. Configure OEM firstboot (systemd-firstboot + sst-user-setup)\n")
 
     target_root = libcalamares.globalstorage.value("rootMountPoint")
     results = {}
@@ -290,6 +439,17 @@ def run():
     except subprocess.CalledProcessError as e:
         libcalamares.utils.warning(f"Failed to remove kiro-calamares-config: {e}")
         results["Remove installer package"] = "FAILED"
+
+    # ========================
+    # OEM Firstboot Setup
+    # ========================
+
+    try:
+        setup_oem_firstboot(target_root)
+        results["OEM firstboot setup"] = "SUCCESS"
+    except Exception as e:
+        libcalamares.utils.warning(f"Failed to configure OEM firstboot: {e}")
+        results["OEM firstboot setup"] = "FAILED"
 
     libcalamares.utils.debug("##############################################")
     libcalamares.utils.debug("End kiro_final module - Function Results:")
