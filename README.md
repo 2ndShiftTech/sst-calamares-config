@@ -1,24 +1,10 @@
-# Kiro Calamares configuration
+# 2ndShiftTech Calamares configuration
 
-![Kiro Logo](kiro.jpg)
+This is a personal ISO i am using for reasons.
 
-![Kiro Logo](kiro-xfce.jpg)
+If you would like to make your own, follow the guidelines below
 
-![Kiro Logo](kiro-chadwm.jpg)
-
-# Download
-
-You can download the latest Kiro ISO from [our SourceForge page](https://sourceforge.net/projects/kiro/files/).
-
-**Kiro** is a customizable Arch Linux ISO builder based on the ArcoLinux project. It provides a simple way to build your own Arch-based installation medium with your choice of packages, settings, and scripts.
-
-Kiro is my personal choice:
-
-- systemboot
-- ext4
-- sddm
-- xfce4 and chadwm
-- a lot of free software
+Thank you Erik Dubois, without you I could not have learned how to do this.
 
 ## 🚀 Features
 
